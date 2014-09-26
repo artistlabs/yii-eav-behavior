@@ -1,5 +1,6 @@
 <?php
 
+namespace artistlabs\yii\eav_behavior;
 /**
  * EEavBehavior class file.
  *
@@ -11,7 +12,7 @@
  *
  * @version 0.5
  */
-class EEavBehavior extends CActiveRecordBehavior
+class EavBehavior extends \CActiveRecordBehavior
 {
 
     /**

@@ -514,6 +514,11 @@ class EEavBehavior extends CActiveRecordBehavior
     {
         $criteria = new CDbCriteria;
         $criteria->addCondition("{$this->entityField} = {$this->getModelId()}");
+        if(!empty($this->attributesPrefix)) {
+            $attributes = array_map(function($attribute) {
+                return $this->attributesPrefix.$attribute;
+            }, $attributes);
+        }
         if (!empty($attributes)) {
             $criteria->addInCondition($this->attributeField, $attributes);
         }

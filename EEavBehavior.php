@@ -14,7 +14,7 @@
 
 namespace artistlabs\yii\behavior;
 
-class EEavBehavior extends CActiveRecordBehavior
+class EEavBehavior extends \CActiveRecordBehavior
 {
 
     /**
@@ -76,7 +76,7 @@ class EEavBehavior extends CActiveRecordBehavior
     /**
      * @access protected
      * @var CAttributeCollection attributes store.
-     * @default new CAttributeCollection
+     * @default new \CAttributeCollection
      */
     protected $attributes = NULL;
 
@@ -146,7 +146,7 @@ class EEavBehavior extends CActiveRecordBehavior
             // If property modelTableFk not set, trying to get a primary key from model table.
             $this->modelTableFk = $this->getOwner()->getTableSchema()->primaryKey;
             if (!is_string($this->modelTableFk)) {
-                throw new CException(Yii::t('yiiext', 'Table "{table}" does not have a primary key defined.', array('{table}' => $this->getOwner()->getTableSchema())));
+                throw new CException(\Yii::t('yiiext', 'Table "{table}" does not have a primary key defined.', array('{table}' => $this->getOwner()->getTableSchema())));
             }
         }
         return $this->modelTableFk;
@@ -206,12 +206,12 @@ class EEavBehavior extends CActiveRecordBehavior
     public function __construct()
     {
         // Prepare attributes collection.
-        $this->attributes = new CAttributeCollection;
+        $this->attributes = new \CAttributeCollection;
         $this->attributes->caseSensitive = TRUE;
         // Prepare safe attributes list.
-        $this->safeAttributes = new CList;
+        $this->safeAttributes = new \CList;
         // Prepare changed attributes list.
-        $this->changedAttributes = new CList;
+        $this->changedAttributes = new \CList;
     }
 
     /**
@@ -223,11 +223,11 @@ class EEavBehavior extends CActiveRecordBehavior
     {
         // Check required property tableName.
         if (!is_string($this->tableName) || empty($this->tableName)) {
-            throw new CException(self::t('yii', 'Property "{class}.{property}" is not defined.', array('{class}' => get_class($this), '{property}' => 'tableName')));
+            throw new \CException(self::t('yii', 'Property "{class}.{property}" is not defined.', array('{class}' => get_class($this), '{property}' => 'tableName')));
         }
         // Prepare translate component for behavior messages.
-        if (!Yii::app()->hasComponent(__CLASS__ . 'Messages')) {
-            Yii::app()->setComponents(array(
+        if (!\Yii::app()->hasComponent(__CLASS__ . 'Messages')) {
+            \Yii::app()->setComponents(array(
                 __CLASS__ . 'Messages' => array(
                     'class' => 'CPhpMessageSource',
                     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'messages',
@@ -235,10 +235,10 @@ class EEavBehavior extends CActiveRecordBehavior
             ));
         }
         // Prepare cache component.
-        $this->cache = Yii::app()->getComponent($this->cacheId);
+        $this->cache = \Yii::app()->getComponent($this->cacheId);
         if (!($this->cache instanceof ICache)) {
             // If not set cache component, use dummy cache.
-            $this->cache = new CDummyCache;
+            $this->cache = new \CDummyCache;
         }
         // Call parent method for convenience.
         parent::attach($owner);
@@ -413,7 +413,7 @@ class EEavBehavior extends CActiveRecordBehavior
         // Values array.
         $values = array();
         // Queue for load.
-        $loadQueue = new CList;
+        $loadQueue = new \CList;
         foreach ($attributes as $attribute) {
             // Check is safe.
             if ($this->hasSafeAttribute($attribute)) {
@@ -515,7 +515,7 @@ class EEavBehavior extends CActiveRecordBehavior
      */
     protected function getLoadEavAttributesCriteria($attributes = array())
     {
-        $criteria = new CDbCriteria;
+        $criteria = new \CDbCriteria;
         $criteria->addCondition("{$this->entityField} = {$this->getModelId()}");
         if(!empty($this->attributesPrefix)) {
             $attributes = array_map(function($attribute) {
@@ -545,7 +545,7 @@ class EEavBehavior extends CActiveRecordBehavior
      */
     protected function getFindByEavAttributesCriteria($attributes)
     {
-        $criteria = new CDbCriteria();
+        $criteria = new \CDbCriteria();
         $pk = $this->getModelTableFk();
 
         $conn = $this->getOwner()->getDbConnection();

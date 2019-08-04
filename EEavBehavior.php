@@ -11,6 +11,9 @@
  *
  * @version 0.5
  */
+
+namespace artistlabs\yii\behavior;
+
 class EEavBehavior extends CActiveRecordBehavior
 {
 

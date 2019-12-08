@@ -425,7 +425,7 @@ class EEavBehavior extends \CActiveRecordBehavior
             }
         }
         // If array for loaded not empty, load attributes.
-        if (!$this->preload && $loadQueue->count() > 0) {
+        if (!$this->preload && $loadQueue->count() > 0 && !$this->owner->isNewRecord) {
             $this->loadEavAttributes($loadQueue->toArray());
             foreach ($loadQueue as $attribute) {
                 $values[$attribute] = $this->attributes->itemAt($attribute);
